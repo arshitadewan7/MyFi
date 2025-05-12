@@ -13,7 +13,9 @@ npm init -y
 4. Install dependencies
    
 npm install express
+
 npm install axios
+
 npm install cors
 
 5. Run the server
