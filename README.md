@@ -19,4 +19,5 @@ npm install axios
 npm install cors
 
 5. Run the server
+6. 
 node server.js
