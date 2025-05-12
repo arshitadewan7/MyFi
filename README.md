@@ -7,10 +7,14 @@ Follow these steps to run the project locally:
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 2. Initialize the project (if not already initialized)
+   
 npm init -y
-3. Install dependencies
+
+4. Install dependencies
+   
 npm install express
 npm install axios
 npm install cors
-4. Run the server
+
+5. Run the server
 node server.js
