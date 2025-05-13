@@ -1,26 +1,53 @@
-require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
 const path = require('path');
+const dotenv = require('dotenv');
+const cors = require('cors');
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Enable CORS
 app.use(cors());
-app.use(express.static('public'));
 
-const PORT = 3000;
+// DB connection
+const db = require('./config/db');
+db.query('SELECT 1')
+  .then(() => console.log('✅ DB connected successfully'))
+  .catch((err) => console.error('❌ DB connection failed:', err));
 
-app.get('/api/stock/:symbol', async (req, res) => {
-  const symbol = req.params.symbol;
-  const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
-  try {
-    const response = await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`);
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch data' });
-  }
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Routes
+app.use('/users', require('./routes/users'));
+
+// Default route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// 404 handler
+app.use((req, res) => {
+  res.status(404).send('Page not found');
 });
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
+// ✅ Start the server
+app.listen(port, () => {
+  console.log(`  Server running at http://localhost:${port}`);
+});
+
+
+

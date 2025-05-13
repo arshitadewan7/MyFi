@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <h2>Welcome to Your Dashboard</h2>
+    <p id="userGreeting"></p>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <script>
+    // Display the user's name or email if needed
+    document.getElementById('userGreeting').innerText = 'Hello, ' + (localStorage.getItem('userEmail') || 'User') + '!';
+
+    // Handle logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('userEmail'); // Optionally, remove email or session info
+      window.location.href = '/login.html';  // Redirect to login page after logout
+    });
+  </script>
+</body>
+</html>
